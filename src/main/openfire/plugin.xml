@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin>
+  <class>br.com.cedrotech.openfire.plugin.wpns.WpnsPlugin</class>
+  <name>${pom.name}</name>
+  <description>${pom.description}</description>
+  <author>${pom.organization.name}</author>
+  <version>${pom.version}</version>
+  <date>${openfire-plugin.build.date}</date>
+  <minServerVersion>3.3.0</minServerVersion>
+  <databaseKey>wpns</databaseKey>
+  <databaseVersion>0</databaseVersion>
+  <licenseType>gpl</licenseType>
+
+  <adminconsole>
+    <tab id="tab-server">
+      <sidebar id="sidebar-server-settings">
+        <item id="wpns-settings" name="WPNS Settings" url="wpns.jsp" description="Click to manage the wpns certificate" />
+      </sidebar>
+    </tab>
+  </adminconsole>
+</plugin>
