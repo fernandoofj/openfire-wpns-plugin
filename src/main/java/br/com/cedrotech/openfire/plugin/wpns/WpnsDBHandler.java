@@ -20,11 +20,14 @@ public class WpnsDBHandler {
     private static final Logger Log = LoggerFactory.getLogger(WpnsPlugin.class);
 
     private static final String LOAD_TOKEN = "SELECT phoneAppID, phoneUrl FROM ofWPNS WHERE JID=?";
-    private static final String INSERT_TOKEN = "INSERT INTO ofWPNS wp (wp.JID, wp.phoneAppID, wp.phoneUrl) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE wp.phoneAppID = ?, wp.phoneUrl = ?";
+    private static final String INSERT_TOKEN = "INSERT INTO ofWPNS (JID, phoneAppID, phoneUrl) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE phoneAppID = ?, phoneUrl = ?";
     private static final String DELETE_TOKEN = "DELETE FROM ofWPNS WHERE phoneAppID = ?";
     private static final String LOAD_TOKENS = "SELECT phoneAppID, phoneUrl FROM ofWPNS LEFT JOIN ofMucMember ON ofWPNS.JID = ofMucMember.jid LEFT JOIN ofMucRoom ON ofMucMember.roomID = ofMucRoom.roomID WHERE ofMucRoom.name = ?";
 
     public boolean insertDeviceToken(JID targetJID, String phoneId, String phoneUrl) {
+	
+		Log.debug("insertDeviceToken: [JID] " + targetJID.toBareJID() + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
+	
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -35,11 +38,17 @@ public class WpnsDBHandler {
             pstmt.setString(1, targetJID.toBareJID());
             pstmt.setString(2, phoneId);
             pstmt.setString(3, phoneUrl);
+			pstmt.setString(4, phoneId);
+            pstmt.setString(5, phoneUrl);
+			
+			
+			
             pstmt.executeUpdate();
             pstmt.close();
 
             isCompleted = true;
         } catch (SQLException sqle) {
+			Log.info("Error: " + sqle.getMessage());
             Log.error(sqle.getMessage(), sqle);
             isCompleted = false;
         } finally {
@@ -49,6 +58,9 @@ public class WpnsDBHandler {
     }
 
     public boolean deleteDeviceToken(String phoneAppID) {
+	
+		Log.debug("deleteDeviceToken: [PhoneId] " + phoneAppID);
+	
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -71,6 +83,9 @@ public class WpnsDBHandler {
     }
 
     public String[] getDeviceToken(JID targetJID) {
+	
+		Log.debug("getDeviceToken: [JID] " + targetJID.toBareJID());
+	
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -84,6 +99,8 @@ public class WpnsDBHandler {
             if (rs.next()) {
             	String phoneId = rs.getString(1);
 				String phoneUrl = rs.getString(2);
+				
+				Log.debug("getDeviceToken: [JID] " + targetJID.toBareJID() + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
 				
 				String [] token = { phoneId, phoneUrl };
 				
@@ -101,6 +118,9 @@ public class WpnsDBHandler {
     }
 
     public List<String[]> getDeviceTokens(String roomName) {
+	
+		Log.debug("getDeviceToken: [roomName] " + roomName);
+	
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -114,6 +134,8 @@ public class WpnsDBHandler {
             while (rs.next()) {
             	String phoneId = rs.getString(1);
 				String phoneUrl = rs.getString(2);
+				
+				Log.debug("getDeviceToken: [roomName] " + roomName + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
 				
 				String [] token = { phoneId, phoneUrl };
 				

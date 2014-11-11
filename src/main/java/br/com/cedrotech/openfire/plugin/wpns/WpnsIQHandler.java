@@ -12,7 +12,8 @@ import org.xmpp.packet.PacketError;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.LoggerFactory;
+
+import java.io.*;
 
 public class WpnsIQHandler extends IQHandler {
 
@@ -39,7 +40,7 @@ public class WpnsIQHandler extends IQHandler {
 
         JID from = packet.getFrom();
         IQ.Type type = packet.getType();
-
+		
         if (type.equals(IQ.Type.get)) {
 		
 			Log.info("IQ Get received: [JID] " + from.toBareJID());
@@ -60,6 +61,9 @@ public class WpnsIQHandler extends IQHandler {
 			Log.info("IQ Set received: [JID] " + from.toBareJID() + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
 			
             if (phoneId != null && phoneId.length() > 0 && phoneUrl != null && phoneUrl.length() > 0) {
+			
+				Log.debug("IQ Set received [not null data] : [JID] " + from.toBareJID() + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
+			
                 if (dbManager.insertDeviceToken(from, phoneId, phoneUrl)) {
                     Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:wpns"));
                     
@@ -83,5 +87,4 @@ public class WpnsIQHandler extends IQHandler {
 
         return result;
     }
-
 }
