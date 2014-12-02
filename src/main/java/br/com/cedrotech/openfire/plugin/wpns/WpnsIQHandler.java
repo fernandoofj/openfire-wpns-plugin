@@ -1,4 +1,4 @@
-package br.com.cedrotech.openfire.plugin.gcm;
+package br.com.cedrotech.openfire.plugin.wpns;
 
 import org.jivesoftware.openfire.IQHandlerInfo;
 import org.jivesoftware.openfire.auth.UnauthorizedException;
@@ -15,18 +15,18 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-public class GCMCedroIQHandler extends IQHandler {
+public class WpnsIQHandler extends IQHandler {
 
-	private static final Logger Log = LoggerFactory.getLogger(GCMCedroPlugin.class);
+	private static final Logger Log = LoggerFactory.getLogger(WpnsPlugin.class);
 
     private IQHandlerInfo info;
 
-    private GCMCedroDBHandler dbManager;
+    private WpnsDBHandler dbManager;
 
-    public GCMCedroIQHandler() {
-        super("GCMCedro IQ Handler");
-        info = new IQHandlerInfo("query","urn:xmpp:gcmcedro");
-        dbManager = new GCMCedroDBHandler();
+    public WpnsIQHandler() {
+        super("Wpns IQ Handler");
+        info = new IQHandlerInfo("query","urn:xmpp:wpns");
+        dbManager = new WpnsDBHandler();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class GCMCedroIQHandler extends IQHandler {
 		
 			Log.info("IQ Get received: [JID] " + from.toBareJID());
 		
-            Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:gcmcedro"));
+            Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:wpns"));
 			
 			String[] deviceTokens = dbManager.getDeviceToken(from);
             responseElement.addElement("phoneId").setText(deviceTokens[0]);
@@ -65,7 +65,7 @@ public class GCMCedroIQHandler extends IQHandler {
 				Log.debug("IQ Set received [not null data] : [JID] " + from.toBareJID() + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
 			
                 if (dbManager.insertDeviceToken(from, phoneId, phoneUrl)) {
-                    Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:gcmcedro"));
+                    Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:wpns"));
                     
                     String[] deviceTokens = dbManager.getDeviceToken(from);
 					responseElement.addElement("phoneId").setText(deviceTokens[0]);

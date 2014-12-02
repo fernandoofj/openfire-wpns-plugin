@@ -1,9 +1,9 @@
 # $Revision$
 # $Date$
 
-INSERT INTO ofVersion (name, version) VALUES ('gcmcedro', 1);
+INSERT INTO ofVersion (name, version) VALUES ('wpns', 1);
 
-CREATE TABLE ofGCMCedro (
+CREATE TABLE ofWPNS (
 	JID VARCHAR(200) NOT NULL,
 	phoneAppID VARCHAR(200) NOT NULL,
 	phoneUrl VARCHAR(200) NOT NULL,
