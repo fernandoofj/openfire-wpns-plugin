@@ -2,12 +2,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>br.com.cedrotech.openfire.plugin</groupId>
-  <artifactId>wpns</artifactId>
+  <artifactId>gcmcedro</artifactId>
   <version>1.0.0</version>
   <packaging>openfire-plugin</packaging>
-  <name>WPNS Service</name>
-  <description>openfire-wpns-plugin is used to integrate Windows Phone Push Notification Service to Openfire.</description>
-  <url>https://github.com/fernandoofj/openfire-wpns-plugin</url>
+  <name>Cedro GCM Service</name>
+  <description>openfire-gcmcedro-plugin is used to integrate Android Push Notification Service to Openfire.</description>
   <organization>
     <name>Cedro Tech</name>
   </organization>
@@ -45,9 +44,15 @@
       <artifactId>commons-io</artifactId>
       <version>2.4</version>
     </dependency>
+	<dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.3.1</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
   <build>
-    <finalName>openfire-wpns</finalName>
+    <finalName>openfire-gcmcedro</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>

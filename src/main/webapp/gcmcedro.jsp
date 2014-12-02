@@ -2,7 +2,7 @@
                  java.util.List,
                  org.jivesoftware.openfire.XMPPServer,
                  org.jivesoftware.util.*,
-                 br.com.cedrotech.openfire.plugin.wpns.WpnsPlugin,
+                 br.com.cedrotech.openfire.plugin.gcm.GCMCedroPlugin,
                  org.apache.commons.fileupload.FileItem,
                  org.apache.commons.fileupload.disk.DiskFileItemFactory,
                  org.apache.commons.fileupload.servlet.ServletFileUpload,
@@ -11,7 +11,7 @@
 %>
 
 <%  // Get parameters
-    boolean save = request.getParameter("save") != null;
+	boolean save = request.getParameter("save") != null;
     boolean success = request.getParameter("success") != null;
     boolean error = request.getParameter("error") != null;
     String password = ParamUtils.getParameter(request, "password");
@@ -19,7 +19,7 @@
     String sound = ParamUtils.getParameter(request, "sound");
     String production = ParamUtils.getParameter(request, "production");
 
-    WpnsPlugin plugin = (WpnsPlugin) XMPPServer.getInstance().getPluginManager().getPlugin("openfire-wpns");
+    GCMCedroPlugin plugin = (GCMCedroPlugin) XMPPServer.getInstance().getPluginManager().getPlugin("openfire-gcmcedro");
 
     // Handle a save
     if (save) {
@@ -34,13 +34,13 @@
             for (FileItem item : multiparts) {
                 if (!item.isFormField()) {
                     String filename = item.getName();
-                    item.write(new File(WpnsPlugin.keystorePath()));
+                    item.write(new File(GCMCedroPlugin.keystorePath()));
                 }
             }
-            response.sendRedirect("wpns.jsp?success=true");
+            response.sendRedirect("gcmcedro.jsp?success=true");
             return;
         } catch (Exception e) {
-            response.sendRedirect("wpns.jsp?error=true");
+            response.sendRedirect("gcmcedro.jsp?error=true");
             return;
         }
 
@@ -54,8 +54,8 @@
 
 <html>
     <head>
-        <title>WPNS Settings Properties</title>
-        <meta name="pageID" content="wpns-settings"/>
+        <title>Cedro GCM Settings Properties</title>
+        <meta name="pageID" content="gcmcedro-settings"/>
     </head>
     <body>
 
@@ -65,16 +65,16 @@
     <tbody>
         <tr><td class="jive-icon"><img src="images/success-16x16.gif" width="16" height="16" border="0"></td>
         <td class="jive-icon-label">
-            WPNS certificate updated successfully.
+            Cedro GCM certificate updated successfully.
         </td></tr>
     </tbody>
     </table>
     </div><br>
 <% } %>
 
-<form action="wpns.jsp?save" method="post" enctype="multipart/form-data">
+<form action="gcmcedro.jsp?save" method="post" enctype="multipart/form-data">
 
-<div class="jive-contentBoxHeader">WPNS certificate</div>
+<div class="jive-contentBoxHeader">Cedro GCM certificate</div>
 <div class="jive-contentBox">
     <label for="file">p12 certificate:</label>
     <input type="file" name="file" />

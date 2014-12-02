@@ -26,5 +26,5 @@ PRE-REQUISITE: USE MAVEN 2.2.1
     ```bash
     mvn install:install-file -DgroupId=org.igniterealtime.openfire -DartifactId=openfire -Dversion=$OPENFIRE_VERSION -Dpackaging=jar -DgeneratePom=true -Dfile=openfire.jar
     ```
-3. Inside openfire-wpns-plugin directory run: `mvn clean install`
-4. If the build was successfull `openfire-wpns.jar` should appear in `target` directory.
+3. Inside openfire-gcmcedro-plugin directory run: `mvn clean install`
+4. If the build was successfull `openfire-gcmcedro.jar` should appear in `target` directory.

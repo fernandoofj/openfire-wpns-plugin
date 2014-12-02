@@ -1,4 +1,4 @@
-package br.com.cedrotech.openfire.plugin.wpns;
+package br.com.cedrotech.openfire.plugin.gcm;
 
 import java.io.File;
 import java.util.List;
@@ -23,19 +23,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class WpnsPlugin implements Plugin, PacketInterceptor {
+public class GCMCedroPlugin implements Plugin, PacketInterceptor {
 
-    private static final Logger Log = LoggerFactory.getLogger(WpnsPlugin.class);
+    private static final Logger Log = LoggerFactory.getLogger(GCMCedroPlugin.class);
 
     private InterceptorManager interceptorManager;
-    private WpnsDBHandler dbManager;
+    private GCMCedroDBHandler dbManager;
 
-    public WpnsPlugin() {
+    public GCMCedroPlugin() {
         interceptorManager = InterceptorManager.getInstance();
-        dbManager = new WpnsDBHandler();
+        dbManager = new GCMCedroDBHandler();
     }
-
-    public static String keystorePath() {
+	
+	public static String keystorePath() {
         return "./keystore.p12";
     }
 
@@ -74,7 +74,7 @@ public class WpnsPlugin implements Plugin, PacketInterceptor {
     public void initializePlugin(PluginManager pManager, File pluginDirectory) {
         interceptorManager.addInterceptor(this);
 
-        IQHandler myHandler = new WpnsIQHandler();
+        IQHandler myHandler = new GCMCedroIQHandler();
         IQRouter iqRouter = XMPPServer.getInstance().getIQRouter();
         iqRouter.addHandler(myHandler);
     }
@@ -101,7 +101,7 @@ public class WpnsPlugin implements Plugin, PacketInterceptor {
                     String[] deviceToken = dbManager.getDeviceToken(targetJID);
                     if (deviceToken == null || deviceToken.length != 2) return;
 
-                    new PushMessage(payloadString, getBadge(), getSound(), WpnsPlugin.keystorePath(), getPassword(), getProduction(), deviceToken).start();
+                    new PushMessage(payloadString, getBadge(), getSound(), GCMCedroPlugin.keystorePath(), getPassword(), getProduction(), deviceToken).start();
                 } else if (receivedMessage.getType() == Message.Type.groupchat) {
                     JID sourceJID = receivedMessage.getFrom();
                     JID targetJID = receivedMessage.getTo();
@@ -114,7 +114,7 @@ public class WpnsPlugin implements Plugin, PacketInterceptor {
                     List<String[]> deviceTokens = dbManager.getDeviceTokens(roomName);
                     if (deviceTokens == null || deviceTokens.isEmpty()) return;
 
-                    new PushMessage(payloadString, getBadge(), getSound(), WpnsPlugin.keystorePath(), getPassword(), getProduction(), deviceTokens).start();
+                    new PushMessage(payloadString, getBadge(), getSound(), GCMCedroPlugin.keystorePath(), getPassword(), getProduction(), deviceTokens).start();
                 }
             }
         }

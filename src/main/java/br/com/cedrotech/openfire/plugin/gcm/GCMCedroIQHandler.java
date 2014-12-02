@@ -1,4 +1,4 @@
-package br.com.cedrotech.openfire.plugin.wpns;
+package br.com.cedrotech.openfire.plugin.gcm;
 
 import org.jivesoftware.openfire.IQHandlerInfo;
 import org.jivesoftware.openfire.auth.UnauthorizedException;
@@ -15,18 +15,18 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
-public class WpnsIQHandler extends IQHandler {
+public class GCMCedroIQHandler extends IQHandler {
 
-	private static final Logger Log = LoggerFactory.getLogger(WpnsPlugin.class);
+	private static final Logger Log = LoggerFactory.getLogger(GCMCedroPlugin.class);
 
     private IQHandlerInfo info;
 
-    private WpnsDBHandler dbManager;
+    private GCMCedroDBHandler dbManager;
 
-    public WpnsIQHandler() {
-        super("Wpns IQ Handler");
-        info = new IQHandlerInfo("query","urn:xmpp:wpns");
-        dbManager = new WpnsDBHandler();
+    public GCMCedroIQHandler() {
+        super("GCMCedro IQ Handler");
+        info = new IQHandlerInfo("query","urn:xmpp:gcmcedro");
+        dbManager = new GCMCedroDBHandler();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class WpnsIQHandler extends IQHandler {
 		
 			Log.info("IQ Get received: [JID] " + from.toBareJID());
 		
-            Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:wpns"));
+            Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:gcmcedro"));
 			
 			String[] deviceTokens = dbManager.getDeviceToken(from);
             responseElement.addElement("phoneId").setText(deviceTokens[0]);
@@ -65,7 +65,7 @@ public class WpnsIQHandler extends IQHandler {
 				Log.debug("IQ Set received [not null data] : [JID] " + from.toBareJID() + " [PhoneId] " + phoneId + " [PhoneUrl] " + phoneUrl);
 			
                 if (dbManager.insertDeviceToken(from, phoneId, phoneUrl)) {
-                    Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:wpns"));
+                    Element responseElement = DocumentHelper.createElement(QName.get("query", "urn:xmpp:gcmcedro"));
                     
                     String[] deviceTokens = dbManager.getDeviceToken(from);
 					responseElement.addElement("phoneId").setText(deviceTokens[0]);

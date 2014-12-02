@@ -1,4 +1,4 @@
-package br.com.cedrotech.openfire.plugin.wpns;
+package br.com.cedrotech.openfire.plugin.gcm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,14 +15,14 @@ import org.xmpp.packet.JID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WpnsDBHandler {
+public class GCMCedroDBHandler {
 
-    private static final Logger Log = LoggerFactory.getLogger(WpnsPlugin.class);
+    private static final Logger Log = LoggerFactory.getLogger(GCMCedroPlugin.class);
 
-    private static final String LOAD_TOKEN = "SELECT phoneAppID, phoneUrl FROM ofWPNS WHERE JID=?";
-    private static final String INSERT_TOKEN = "INSERT INTO ofWPNS (JID, phoneAppID, phoneUrl) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE phoneAppID = ?, phoneUrl = ?";
-    private static final String DELETE_TOKEN = "DELETE FROM ofWPNS WHERE phoneAppID = ?";
-    private static final String LOAD_TOKENS = "SELECT phoneAppID, phoneUrl FROM ofWPNS LEFT JOIN ofMucMember ON ofWPNS.JID = ofMucMember.jid LEFT JOIN ofMucRoom ON ofMucMember.roomID = ofMucRoom.roomID WHERE ofMucRoom.name = ?";
+    private static final String LOAD_TOKEN = "SELECT phoneAppID, phoneUrl FROM ofGCMCedro WHERE JID=?";
+    private static final String INSERT_TOKEN = "INSERT INTO ofGCMCedro (JID, phoneAppID, phoneUrl) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE phoneAppID = ?, phoneUrl = ?";
+    private static final String DELETE_TOKEN = "DELETE FROM ofGCMCedro WHERE phoneAppID = ?";
+    private static final String LOAD_TOKENS = "SELECT phoneAppID, phoneUrl FROM ofGCMCedro LEFT JOIN ofMucMember ON ofGCMCedro.JID = ofMucMember.jid LEFT JOIN ofMucRoom ON ofMucMember.roomID = ofMucRoom.roomID WHERE ofMucRoom.name = ?";
 
     public boolean insertDeviceToken(JID targetJID, String phoneId, String phoneUrl) {
 	
